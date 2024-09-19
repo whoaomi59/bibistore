@@ -1,8 +1,13 @@
+import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
-import List_Produc from "./pages/list_product";
+import RouterPublic from "./routes/routes";
 
 function App() {
-  return <List_Produc />;
+  return (
+    <Router>
+      <RouterPublic />
+    </Router>
+  );
 }
 
 export default App;
