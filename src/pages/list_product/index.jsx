@@ -51,9 +51,9 @@ export default function List_Produc() {
                   <h3 class="text-lg font-extrabold text-gray-800">
                     {item.name}
                   </h3>
-                  <p class="text-gray-600 text-sm mt-2">{item.descripcion}</p>
+                  <p class="text-gray-600 text-sm mt-2">{item.descripcion}.</p>
                   <h4 class="text-lg text-gray-800 font-bold mt-4">
-                    $ {item.precio}
+                    $ {item.precio.toLocaleString()}
                   </h4>
                 </div>
               </div>

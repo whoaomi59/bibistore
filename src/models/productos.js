@@ -215,16 +215,16 @@ export const ModeslProductos = [
   {
     id: 8,
     img: "/img/Productos/pro14.jpeg",
-    name: "Sombra UGLY",
-    precio: 25000,
-    descripcion: "Sombra Ugly BEAUTY",
+    name: "Bronzer + Brocha",
+    precio: 12000,
+    descripcion: "Bronzer,L.A.COLORS",
   },
   {
     id: 8,
     img: "/img/Productos/pro15.jpeg",
-    name: "Sombra UGLY",
-    precio: 25000,
-    descripcion: "Sombra Ugly BEAUTY",
+    name: "Paleta Multi Color",
+    precio: 30000,
+    descripcion: "Paleta Multi Color,Rebelde",
   },
   {
     id: 8,
