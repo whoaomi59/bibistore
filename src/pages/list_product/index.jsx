@@ -1,36 +1,29 @@
 import * as Icons from "@heroicons/react/24/outline";
-
-const data = [
-  {
-    img: "https://http2.mlstatic.com/D_NQ_NP_774287-MLU69787960621_062023-O.webp",
-  },
-  {
-    img: "https://lignedor.com.co/wp-content/uploads/2023/01/Glamour-Paleta.jpg",
-  },
-  {
-    img: "https://www.magnacosmetics.co/wp-content/uploads/2022/05/50077yf2.jpg",
-  },
-  {
-    img: "https://maquillajetonos.com/wp-content/uploads/2020/09/mascara-extreme-4.jpg",
-  },
-  {
-    img: "https://maquillajetonos.com/wp-content/uploads/2020/09/mascaraextreme2.jpg",
-  },
-  {
-    img: "https://prebel.vtexassets.com/arquivos/ids/156573/Maquillaje-Ojos-Pestaninas_PB0047947_SinColor_1.jpg?v=636906833888000000",
-  },
-  {
-    img: "https://vitu.com.co/wp-content/uploads/2020/10/Maquillaje-Unas-Esmaltes_PB0074567_c1836e_1.jpg",
-  },
-  {
-    img: "https://i0.wp.com/surtibelleza.com.co/wp-content/uploads/2024/04/maquillaje-unas-esmalte-desvergonzada-masglo.png?fit=800%2C800&ssl=1",
-  },
-  {
-    img: "https://staticco.natura.com/cdn/ff/wIxo8zL2uzbuvSrKU8ob8vVOFESZWaU1JdQNFKcEEJI/1723786591/public/products/106535_1_18.jpg",
-  },
-];
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { ModeslProductos } from "../../models/productos";
 
 export default function List_Produc() {
+  const [pagina, setPaginado] = useState(20);
+  const [data, setdata] = useState([]);
+
+  const CargarMas = () => {
+    alert("listar mas productos!" + pagina);
+    setPaginado(pagina + 20);
+  };
+
+  useEffect(() => {
+    axios
+      .get("/api/productos")
+      .then((response) => {
+        console.log(response.data);
+        setdata(response.data.Productos);
+      })
+      .catch((err) => {
+        console.error("Error al obtener productos", err);
+      });
+  }, []);
+
   return (
     <div class="font-[sans-serif]">
       <div class="p-4 mx-auto lg:max-w-7xl sm:max-w-full">
@@ -39,7 +32,7 @@ export default function List_Produc() {
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
-          {data.map((item) => (
+          {ModeslProductos.map((item) => (
             <a href="/Product_Detail/8">
               <div class="bg-white rounded-2xl p-5 cursor-pointer hover:-translate-y-2 transition-all relative">
                 <div class="bg-gray-100 w-8 h-8 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
@@ -56,34 +49,24 @@ export default function List_Produc() {
 
                 <div>
                   <h3 class="text-lg font-extrabold text-gray-800">
-                    Sole Elegance
+                    {item.name}
                   </h3>
-                  <p class="text-gray-600 text-sm mt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
-                  <h4 class="text-lg text-gray-800 font-bold mt-4">$10</h4>
+                  <p class="text-gray-600 text-sm mt-2">{item.descripcion}</p>
+                  <h4 class="text-lg text-gray-800 font-bold mt-4">
+                    ${item.precio}
+                  </h4>
                 </div>
               </div>
             </a>
           ))}
         </div>
         <div class="md:flex m-4 mt-10">
-          <p class="text-sm text-gray-500 flex-1">Registros por página</p>
-
-          <div class="flex items-center max-md:mt-4">
-            <p class="text-sm text-gray-500">Display</p>
-            <ul class="flex space-x-1 ml-2">
-              <button class="flex items-center justify-center cursor-pointer bg-blue-100 w-7 h-7 rounded">
-                <Icons.ChevronLeftIcon className="w-5 text-gray-500" />
-              </button>
-              <li class="flex items-center justify-center cursor-pointer text-sm w-7 h-7 text-gray-500 rounded">
-                6
-              </li>
-              <button class="flex items-center justify-center cursor-pointer bg-blue-100 w-7 h-7 rounded">
-                <Icons.ChevronRightIcon className="w-5 text-gray-500" />
-              </button>
-            </ul>
-          </div>
+          <button
+            onClick={CargarMas}
+            className="w-full bg-purple-500 text-white p-2"
+          >
+            Cargar Mas...
+          </button>
         </div>
       </div>
     </div>
