@@ -52,9 +52,12 @@ export default function List_Produc() {
                     {item.name}
                   </h3>
                   <p class="text-gray-600 text-sm mt-2">{item.descripcion}.</p>
-                  <h4 class="text-lg text-gray-800 font-bold mt-4">
+                  <button
+                    type="button"
+                    class="flex items-center text-purple-600 text-sm bg-purple-50 px-3 py-1.5 tracking-wide rounded-full mt-2"
+                  >
                     $ {item.precio.toLocaleString()}
-                  </h4>
+                  </button>
                 </div>
               </div>
             </a>

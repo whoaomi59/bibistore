@@ -60,6 +60,8 @@ const Productos = [
 
 mock.onGet("/api/productos").reply(200, { Productos });
 
+console.log(Productos);
+
 mock.onGet("/api/producto").reply((config) => {
   const { id } = config.params;
   const invoice = Productos.find((_invoice) => _invoice.id === id);
@@ -229,9 +231,9 @@ export const ModeslProductos = [
   {
     id: 8,
     img: "/img/Productos/pro16.jpeg",
-    name: "Sombra UGLY",
-    precio: 25000,
-    descripcion: "Sombra Ugly BEAUTY",
+    name: "Rueda Correctores",
+    precio: 12000,
+    descripcion: "Rueda Correctores x3 Tonos",
   },
   {
     id: 8,
