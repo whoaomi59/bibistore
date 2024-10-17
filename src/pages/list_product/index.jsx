@@ -42,7 +42,7 @@ export default function List_Produc() {
                 <div class="w-5/6 h-[210px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 md:mb-2 mb-4">
                   <img
                     src={item.img}
-                    alt="Product 1"
+                    alt={item.name}
                     class="h-full w-full object-cover object-top hover:scale-110 transition-all"
                   />
                 </div>
@@ -53,7 +53,7 @@ export default function List_Produc() {
                   </h3>
                   <p class="text-gray-600 text-sm mt-2">{item.descripcion}</p>
                   <h4 class="text-lg text-gray-800 font-bold mt-4">
-                    ${item.precio}
+                    $ {item.precio}
                   </h4>
                 </div>
               </div>
