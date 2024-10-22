@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Swealert from "../../components/alertas/swealert";
+import { TrashIcon } from "@heroicons/react/16/solid";
 
 export default function AdminProduct() {
   const [items, setItems] = useState([]);
@@ -15,6 +17,7 @@ export default function AdminProduct() {
   const [isEditing, setIsEditing] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [refresh, setrefresh] = useState(false);
+  const [loading, setloading] = useState(false);
 
   // Crear nuevo item
   const handleCreate = async (e) => {
@@ -29,11 +32,8 @@ export default function AdminProduct() {
     formData.append("imgtree", newItem.imgtree);
 
     try {
-      const response = await axios.post(`items`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      setloading(true);
+      const response = await axios.post(`items`, formData);
       setrefresh((prev) => !prev);
       setNewItem({
         nombre: "",
@@ -44,10 +44,17 @@ export default function AdminProduct() {
         imgtwo: null,
         imgtree: null,
       });
-      return alert("Productos creado!");
+      setloading(false);
+      const alerta = Swealert({ ico: "success", mesage: "Registro creado" });
+      return alerta;
     } catch (e) {
+      setloading(false);
       console.log(e);
-      return alert("Error al crear productos!");
+      const alerta = Swealert({
+        ico: "error",
+        mesage: "Error al crear productos!",
+      });
+      return alerta;
     }
   };
 
@@ -122,41 +129,63 @@ export default function AdminProduct() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">CRUD con Backend</h1>
-
       {/* Formulario para crear o actualizar */}
       <form
         onSubmit={isEditing ? handleUpdate : handleCreate}
         className="space-y-4 bg-white p-6 rounded shadow-md max-w-md mx-auto"
       >
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={newItem.nombre}
-          onChange={(e) => setNewItem({ ...newItem, nombre: e.target.value })}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
-        <input
-          type="text"
-          placeholder="descripcion"
-          value={newItem.descripcion}
-          onChange={(e) =>
-            setNewItem({ ...newItem, descripcion: e.target.value })
-          }
-          className="w-full p-2 border border-gray-300 rounded"
-        />
-        <input
-          type="number"
-          placeholder="Precio"
-          value={newItem.precio}
-          onChange={(e) => setNewItem({ ...newItem, precio: e.target.value })}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
-        <input
-          type="file"
-          onChange={(e) => setNewItem({ ...newItem, img: e.target.files[0] })}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <img src="/img/logo2.png" alt="logo" className="w-60" />
+        </div>
+        <div>
+          <labe class="mb-2 text-base block">Nombre producto:</labe>
+          <input
+            type="text"
+            placeholder="Ingrese el nombre del producto."
+            value={newItem.nombre}
+            onChange={(e) => setNewItem({ ...newItem, nombre: e.target.value })}
+            class="px-4 py-2 text-base rounded-md bg-white border border-gray-400 w-full outline-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <labe class="mb-2 text-base block">Precio producto:</labe>
+          <input
+            type="number"
+            placeholder="Ingrese el precio del producto $"
+            value={newItem.precio}
+            onChange={(e) => setNewItem({ ...newItem, precio: e.target.value })}
+            class="px-4 py-2 text-base rounded-md bg-white border border-gray-400 w-full outline-blue-500"
+            required
+          />
+        </div>{" "}
+        <div>
+          <labe class="mb-2 text-base block">descripcion producto:</labe>
+          <textarea
+            type="text"
+            placeholder="Ingrese la descripcion."
+            value={newItem.descripcion}
+            onChange={(e) =>
+              setNewItem({ ...newItem, descripcion: e.target.value })
+            }
+            className="px-4 py-2 text-base rounded-md bg-white border border-gray-400 w-full outline-blue-500"
+            required
+          />
+        </div>{" "}
+        <div>
+          <labe class="mb-2 text-base block">Imagenes:</labe>
+          <input
+            type="file"
+            onChange={(e) => setNewItem({ ...newItem, img: e.target.files[0] })}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
         <input
           type="file"
           onChange={(e) =>
@@ -180,108 +209,106 @@ export default function AdminProduct() {
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
+          className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-700"
         >
-          {isEditing ? "Actualizar" : "Crear"}
+          {loading ? "loading..." : isEditing ? "Actualizar" : "Guardar"}
         </button>
       </form>
 
       {/* Lista de items */}
-      <ul className="mt-8 space-y-4">
-        {items.length > 0 ? (
-          <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
-            <div class="p-6 px-0 overflow-scroll">
-              <table class="w-full mt-4 text-left table-auto min-w-max">
-                <thead>
+      {items.length > 0 ? (
+        <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border mt-10">
+          <div class="p-6 px-0 overflow-scroll">
+            <table class="w-full text-left table-auto min-w-max">
+              <thead>
+                <tr>
+                  <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                    <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                      Productos
+                    </p>
+                  </th>
+                  <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                    <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                      Comentario
+                    </p>
+                  </th>
+                  <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                    <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                      img
+                    </p>
+                  </th>
+                  <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                    <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                      Accion
+                    </p>
+                  </th>
+                  <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                    <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item) => (
                   <tr>
-                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
-                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                        Productos
-                      </p>
-                    </th>
-                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
-                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                        Comentario
-                      </p>
-                    </th>
-                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
-                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                        img
-                      </p>
-                    </th>
-                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
-                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                        Accion
-                      </p>
-                    </th>
-                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
-                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {items.map((item) => (
-                    <tr>
-                      <td class="p-4 border-b border-blue-gray-50">
-                        <div class="flex items-center gap-3">
-                          <img
-                            src={`https://asuprocolombiasas.com/php/${item.img}`}
-                            alt={item.nombre}
-                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
-                          />
-                          <div class="flex flex-col">
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                              {item.nombre}
-                            </p>
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 opacity-70">
-                              {item.precio}
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-4 border-b border-blue-gray-50">
+                    <td class="p-4 border-b border-blue-gray-50">
+                      <div class="flex items-center gap-3">
+                        <img
+                          src={`https://asuprocolombiasas.com/php/${item.img}`}
+                          alt={item.nombre}
+                          class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                        />
                         <div class="flex flex-col">
                           <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {item.descripcion}
+                            {item.nombre}
+                          </p>
+                          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 opacity-70">
+                            {item.precio}
                           </p>
                         </div>
-                      </td>
-                      <td class="p-4 border-b border-blue-gray-50">
-                        <div class="flex">
-                          <img
-                            src={`https://asuprocolombiasas.com/php/${item.imgone}`}
-                            alt={`${item.nombre} Secundaria 1`}
-                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
-                          />
-                          <img
-                            src={`https://asuprocolombiasas.com/php/${item.imgtwo}`}
-                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
-                          />
-                          <img
-                            src={`https://asuprocolombiasas.com/php/${item.imgtree}`}
-                            alt={`${item.nombre} Secundaria 3`}
-                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
-                          />
-                        </div>
-                      </td>
-                      <td class="p-4 border-b border-blue-gray-50">
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                        >
-                          Eliminar
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </div>
+                    </td>
+                    <td class="p-4 border-b border-blue-gray-50">
+                      <div class="flex flex-col">
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          {item.descripcion}
+                        </p>
+                      </div>
+                    </td>
+                    <td class="p-4 border-b border-blue-gray-50">
+                      <div class="flex">
+                        <img
+                          src={`https://asuprocolombiasas.com/php/${item.imgone}`}
+                          alt={`${item.nombre} Secundaria 1`}
+                          class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                        />
+                        <img
+                          src={`https://asuprocolombiasas.com/php/${item.imgtwo}`}
+                          class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                        />
+                        <img
+                          src={`https://asuprocolombiasas.com/php/${item.imgtree}`}
+                          alt={`${item.nombre} Secundaria 3`}
+                          class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                        />
+                      </div>
+                    </td>
+                    <td class="p-4 border-b border-blue-gray-50">
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                      >
+                        <TrashIcon className="h-5 w-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ) : (
-          <p className="text-center">¡No hay productos disponibles!</p>
-        )}
-      </ul>
+        </div>
+      ) : (
+        <p className="text-center">¡No hay productos disponibles!</p>
+      )}
     </div>
   );
 }
