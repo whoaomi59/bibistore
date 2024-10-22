@@ -8,7 +8,6 @@ export default function Login() {
     user: "",
     pass: "",
   });
-  console.log(data);
 
   function handleChange(e) {
     const { name, value } = e.target; // Desestructuramos el name y value del evento
@@ -22,8 +21,11 @@ export default function Login() {
     e.preventDefault();
     if (usuario === data.user && contraseña === data.pass) {
       console.log("usuario");
+      localStorage.setItem("toke", "admin");
+      window.location.href = "/admin/product";
     } else {
       console.log("no user: " + data.user);
+      alert("usuario y contraseña incorrecta!");
     }
   };
 

@@ -7,6 +7,9 @@ export default function Navbar(props) {
     setIsOpen(!isOpen);
   };
 
+  let Token = localStorage.getItem("toke");
+  console.log(Token);
+
   return (
     <div>
       <header className="flex border-b py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50 mb-10">
@@ -72,14 +75,25 @@ export default function Navbar(props) {
                   Nosotros
                 </a>
               </li>
-              <li className="max-lg:border-b max-lg:py-3 px-3">
-                <a
-                  href="/admin/product"
-                  className="text-gray-400 block font-semibold text-[15px]"
-                >
-                  Admin
-                </a>
-              </li>
+              {Token ? (
+                <li className="max-lg:border-b max-lg:py-3 px-3">
+                  <a
+                    href="/admin/product"
+                    className="text-gray-500 block font-semibold text-[15px]"
+                  >
+                    Admin
+                  </a>
+                </li>
+              ) : (
+                <li className="max-lg:border-b max-lg:py-3 px-3">
+                  <a
+                    href="/login"
+                    className="text-gray-500 block font-semibold text-[15px]"
+                  >
+                    Login
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 
