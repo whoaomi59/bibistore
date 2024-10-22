@@ -29,15 +29,11 @@ export default function AdminProduct() {
     formData.append("imgtree", newItem.imgtree);
 
     try {
-      const response = await axios.post(
-        `https://asuprocolombiasas.com/php/server.php/items`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`items`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setrefresh((prev) => !prev);
       setNewItem({
         nombre: "",
@@ -193,57 +189,95 @@ export default function AdminProduct() {
       {/* Lista de items */}
       <ul className="mt-8 space-y-4">
         {items.length > 0 ? (
-          items.map((item) => (
-            <li
-              key={item.id}
-              className="bg-white p-6 rounded shadow-md flex items-center justify-between"
-            >
-              <div>
-                <h3 className="text-lg font-bold">{item.nombre}</h3>
-                <p className="text-sm text-gray-600">${item.precio}</p>
-                <p className="text-sm text-gray-600">${item.descripcion}</p>
-                <img
-                  src={`https://asuprocolombiasas.com/php/${item.img}`}
-                  alt={item.nombre}
-                  width="100"
-                  className="mt-2"
-                />
-                <div className="flex space-x-2 mt-2">
-                  <img
-                    src={`https://asuprocolombiasas.com/php/${item.imgone}`}
-                    alt={`${item.nombre} Secundaria 1`}
-                    width="50"
-                  />
-                  <img
-                    src={`https://asuprocolombiasas.com/php/${item.imgtwo}`}
-                    alt={`${item.nombre} Secundaria 2`}
-                    width="50"
-                  />
-                  <img
-                    src={`https://asuprocolombiasas.com/php/${item.imgtree}`}
-                    alt={`${item.nombre} Secundaria 3`}
-                    width="50"
-                  />
-                </div>
-              </div>
-              <div>
-                {/*
-                 <button
-                  onClick={() => handleEdit(item)}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded mr-2 hover:bg-yellow-600"
-                >
-                  Editar
-                </button>
-                */}
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </li>
-          ))
+          <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+            <div class="p-6 px-0 overflow-scroll">
+              <table class="w-full mt-4 text-left table-auto min-w-max">
+                <thead>
+                  <tr>
+                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                        Productos
+                      </p>
+                    </th>
+                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                        Comentario
+                      </p>
+                    </th>
+                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                        img
+                      </p>
+                    </th>
+                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                        Accion
+                      </p>
+                    </th>
+                    <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                      <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((item) => (
+                    <tr>
+                      <td class="p-4 border-b border-blue-gray-50">
+                        <div class="flex items-center gap-3">
+                          <img
+                            src={`https://asuprocolombiasas.com/php/${item.img}`}
+                            alt={item.nombre}
+                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                          />
+                          <div class="flex flex-col">
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                              {item.nombre}
+                            </p>
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 opacity-70">
+                              {item.precio}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="p-4 border-b border-blue-gray-50">
+                        <div class="flex flex-col">
+                          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            {item.descripcion}
+                          </p>
+                        </div>
+                      </td>
+                      <td class="p-4 border-b border-blue-gray-50">
+                        <div class="flex">
+                          <img
+                            src={`https://asuprocolombiasas.com/php/${item.imgone}`}
+                            alt={`${item.nombre} Secundaria 1`}
+                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                          />
+                          <img
+                            src={`https://asuprocolombiasas.com/php/${item.imgtwo}`}
+                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                          />
+                          <img
+                            src={`https://asuprocolombiasas.com/php/${item.imgtree}`}
+                            alt={`${item.nombre} Secundaria 3`}
+                            class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
+                          />
+                        </div>
+                      </td>
+                      <td class="p-4 border-b border-blue-gray-50">
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         ) : (
           <p className="text-center">¡No hay productos disponibles!</p>
         )}
