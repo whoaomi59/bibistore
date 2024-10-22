@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Swealert from "../../components/alertas/swealert";
 import { TrashIcon } from "@heroicons/react/16/solid";
+import Swealert from "../../../components/alertas/swealert";
 
-export default function AdminProduct() {
+export default function CategoriasAdmin() {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState({
     nombre: "",
-    precio: "",
-    descripcion: "",
     img: null,
-    imgone: null,
-    imgtwo: null,
-    imgtree: null,
   });
   const [isEditing, setIsEditing] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
@@ -24,25 +19,15 @@ export default function AdminProduct() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("nombre", newItem.nombre);
-    formData.append("precio", newItem.precio);
-    formData.append("descripcion", newItem.descripcion);
     formData.append("img", newItem.img);
-    formData.append("imgone", newItem.imgone);
-    formData.append("imgtwo", newItem.imgtwo);
-    formData.append("imgtree", newItem.imgtree);
 
     try {
       setloading(true);
-      const response = await axios.post(`items`, formData);
+      const response = await axios.post(`categorias`, formData);
       setrefresh((prev) => !prev);
       setNewItem({
         nombre: "",
-        precio: "",
-        descripcion: "",
         img: null,
-        imgone: null,
-        imgtwo: null,
-        imgtree: null,
       });
       setloading(false);
       const alerta = Swealert({ ico: "success", mesage: "Registro creado" });
@@ -122,7 +107,7 @@ export default function AdminProduct() {
   useEffect(() => {
     const Get = async () => {
       try {
-        let response = await axios.get(`items`);
+        let response = await axios.get(`categorias`);
         setItems(response.data);
       } catch (e) {
         console.log(e);
@@ -164,7 +149,7 @@ export default function AdminProduct() {
               <img src="/img/logo2.png" alt="logo" className="w-60" />
             </div>
             <div>
-              <labe class="mb-2 text-base block">Nombre producto:</labe>
+              <labe class="mb-2 text-base block">Nombre categoria:</labe>
               <input
                 type="text"
                 placeholder="Ingrese el nombre del producto."
@@ -177,33 +162,7 @@ export default function AdminProduct() {
               />
             </div>
             <div>
-              <labe class="mb-2 text-base block">Precio producto:</labe>
-              <input
-                type="number"
-                placeholder="Ingrese el precio del producto $"
-                value={newItem.precio}
-                onChange={(e) =>
-                  setNewItem({ ...newItem, precio: e.target.value })
-                }
-                class="px-4 py-2 text-base rounded-md bg-white border border-gray-400 w-full outline-blue-500"
-                required
-              />
-            </div>{" "}
-            <div>
-              <labe class="mb-2 text-base block">descripcion producto:</labe>
-              <textarea
-                type="text"
-                placeholder="Ingrese la descripcion."
-                value={newItem.descripcion}
-                onChange={(e) =>
-                  setNewItem({ ...newItem, descripcion: e.target.value })
-                }
-                className="px-4 py-2 text-base rounded-md bg-white border border-gray-400 w-full outline-blue-500"
-                required
-              />
-            </div>{" "}
-            <div>
-              <labe class="mb-2 text-base block">Imagenes:</labe>
+              <labe class="mb-2 text-base block">Imagen:</labe>
               <input
                 type="file"
                 onChange={(e) =>
@@ -213,27 +172,6 @@ export default function AdminProduct() {
                 required
               />
             </div>
-            <input
-              type="file"
-              onChange={(e) =>
-                setNewItem({ ...newItem, imgone: e.target.files[0] })
-              }
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-            <input
-              type="file"
-              onChange={(e) =>
-                setNewItem({ ...newItem, imgtwo: e.target.files[0] })
-              }
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-            <input
-              type="file"
-              onChange={(e) =>
-                setNewItem({ ...newItem, imgtree: e.target.files[0] })
-              }
-              className="w-full p-2 border border-gray-300 rounded"
-            />
             <button
               type="submit"
               className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-700"
@@ -251,12 +189,12 @@ export default function AdminProduct() {
                 <tr>
                   <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                     <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                      Productos
+                      Id
                     </p>
                   </th>
                   <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                     <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                      Comentario
+                      categoria
                     </p>
                   </th>
                   <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
@@ -278,45 +216,26 @@ export default function AdminProduct() {
                 {items.map((item) => (
                   <tr>
                     <td class="p-4 border-b border-blue-gray-50">
+                      <div class="flex flex-col">
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                          {item.id}
+                        </p>
+                      </div>
+                    </td>
+                    <td class="p-4 border-b border-blue-gray-50">
                       <div class="flex items-center gap-3">
                         <img
                           src={`https://asuprocolombiasas.com/php/${item.img}`}
                           alt={item.nombre}
                           class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
                         />
-                        <div class="flex flex-col">
-                          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                            {item.nombre}
-                          </p>
-                          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 opacity-70">
-                            {item.precio}
-                          </p>
-                        </div>
                       </div>
                     </td>
                     <td class="p-4 border-b border-blue-gray-50">
                       <div class="flex flex-col">
                         <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                          {item.descripcion}
+                          {item.nombre}
                         </p>
-                      </div>
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                      <div class="flex">
-                        <img
-                          src={`https://asuprocolombiasas.com/php/${item.imgone}`}
-                          alt={`${item.nombre} Secundaria 1`}
-                          class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
-                        />
-                        <img
-                          src={`https://asuprocolombiasas.com/php/${item.imgtwo}`}
-                          class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
-                        />
-                        <img
-                          src={`https://asuprocolombiasas.com/php/${item.imgtree}`}
-                          alt={`${item.nombre} Secundaria 3`}
-                          class="relative inline-block h-20 w-20 !rounded-full object-cover object-center"
-                        />
                       </div>
                     </td>
                     <td class="p-4 border-b border-blue-gray-50">
