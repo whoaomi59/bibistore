@@ -135,14 +135,6 @@ export default function AdminProduct() {
     <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4 m-10">
       {/* Formulario para crear o actualizar */}
       <div className="bg-white">
-        <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-          <button
-            onClick={Salir}
-            className="bg-green-500 text-white p-2 rounded hover:bg-green-700 mr-5 mt-2"
-          >
-            Salir
-          </button>
-        </div>
         <form
           onSubmit={isEditing ? handleUpdate : handleCreate}
           className="space-y-4 bg-white p-6 rounded shadow-md max-w-md mx-auto"
