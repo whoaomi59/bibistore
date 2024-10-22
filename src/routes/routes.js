@@ -3,6 +3,7 @@ import List_Produc from "../pages/list_product";
 import Navbar from "../components/navbar";
 import Product_Detail from "../pages/product_detail";
 import AdminProduct from "../pages/admin/produc";
+import Login from "../layout/login";
 
 export default function RouterPublic() {
   return (
@@ -18,6 +19,7 @@ export default function RouterPublic() {
         <Route path="/Product_Detail/:id" element={<Product_Detail />} />
         <Route path="/admin/product" element={<AdminProduct />} />
       </Route>
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }
