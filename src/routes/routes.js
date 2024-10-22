@@ -4,7 +4,6 @@ import Navbar from "../components/navbar";
 import Product_Detail from "../pages/product_detail";
 import AdminProduct from "../pages/admin/produc";
 import Login from "../layout/login";
-import NavbarAdmin from "../components/navbarAdmin";
 
 export default function RouterPublic() {
   return (
@@ -17,18 +16,10 @@ export default function RouterPublic() {
         }
       >
         <Route path="/" element={<List_Produc />} />
-        <Route path="/Product_Detail/:id" element={<Product_Detail />} />
-      </Route>
-      {/*admin */}
-      <Route
-        element={
-          <NavbarAdmin>
-            <Outlet />
-          </NavbarAdmin>
-        }
-      >
+        <Route path="/Product_Detail/:id" element={<Product_Detail />} />{" "}
         <Route path="/admin/product" element={<AdminProduct />} />
       </Route>
+      {/*admin */}
       <Route path="/login" element={<Login />} />
     </Routes>
   );
