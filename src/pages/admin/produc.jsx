@@ -180,9 +180,7 @@ export default function AdminProduct() {
             </div>
             <div>
               {" "}
-              <labe class="mb-2 text-base block">
-                <Categoria></Categoria> producto:
-              </labe>
+              <labe class="mb-2 text-base block">Categoria producto:</labe>
               <select
                 name=""
                 id=""
