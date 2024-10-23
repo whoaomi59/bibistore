@@ -2,6 +2,7 @@ import * as Icons from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ModeslProductos } from "../../models/productos";
+import Categorias from "./categorias";
 
 export default function List_Produc() {
   const [pagina, setPaginado] = useState(20);
@@ -25,13 +26,17 @@ export default function List_Produc() {
   }, []);
 
   return (
-    <div class="font-[sans-serif]">
-      <div class="p-4 mx-auto lg:max-w-7xl sm:max-w-full">
-        <h2 class="text-4xl font-extrabold text-gray-800 mb-12">
-          Nuestros productos.
+    <div class="font-sans">
+      <div class="p-4 mx-auto sm:max-w-full margin-90">
+        <Categorias />
+        <h2 class="text-4xl font-extrabold text-gray-800 mt-20 text-center">
+          !Los productos <span className="text-purple-500">más vendidos!</span>
         </h2>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
+        <p className="text-center mb-16 mt-2">
+          Actualiza tu colección con los{" "}
+          <strong>productos más vendidos de nuestra tienda.</strong>
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-xl:gap-5 gap-8">
           {ModeslProductos.map((item) => (
             <a href="/Product_Detail/8">
               <div class="bg-white rounded-2xl p-5 cursor-pointer hover:-translate-y-2 transition-all relative">
