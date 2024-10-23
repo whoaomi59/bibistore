@@ -5,6 +5,7 @@ import { TrashIcon } from "@heroicons/react/16/solid";
 
 export default function AdminProduct() {
   const [items, setItems] = useState([]);
+  const [categorias, setcategorias] = useState([]);
   const [newItem, setNewItem] = useState({
     nombre: "",
     precio: "",
@@ -128,7 +129,16 @@ export default function AdminProduct() {
         console.log(e);
       }
     };
+    const Categoria = async () => {
+      try {
+        let response = await axios.get(`categorias`);
+        setcategorias(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
     Get();
+    Categoria();
   }, [refresh]);
 
   return (
@@ -167,6 +177,22 @@ export default function AdminProduct() {
                 class="px-4 py-2 text-base rounded-md bg-white border border-gray-400 w-full outline-blue-500"
                 required
               />
+            </div>
+            <div>
+              {" "}
+              <labe class="mb-2 text-base block">
+                <Categoria></Categoria> producto:
+              </labe>
+              <select
+                name=""
+                id=""
+                class="px-4 py-2 text-base rounded-md bg-white border border-gray-400 w-full outline-blue-500"
+              >
+                <option>seleccione categoria</option>
+                {categorias.map((item) => (
+                  <option value={item.id}>{item.nombre}</option>
+                ))}
+              </select>
             </div>
             <div>
               <labe class="mb-2 text-base block">Precio producto:</labe>
