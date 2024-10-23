@@ -261,8 +261,8 @@ export default function AdminProduct() {
 
         {/* Lista de items */}
         {items.length > 0 ? (
-          <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
-            <table class="w-full text-left table-auto min-w-max">
+          <div class="font-sans overflow-x-auto bg-white">
+            <table class="w-full text-left table-auto min-w-max m-10 ">
               <thead>
                 <tr>
                   <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
