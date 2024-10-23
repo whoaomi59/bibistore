@@ -118,14 +118,6 @@ export default function CategoriasAdmin() {
 
   return (
     <div>
-      <ul>
-        <li>
-          <a href="/admin/product">Productos</a>
-        </li>
-        <li>
-          <a href="/admin/categorias">Categorias</a>
-        </li>
-      </ul>
       <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4 m-10">
         {/* Formulario para crear o actualizar */}
         <div className="bg-white">
