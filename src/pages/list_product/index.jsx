@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ModeslProductos } from "../../models/productos";
 import Categorias from "./categorias";
+import Loader from "../../components/loading";
 
 export default function List_Produc() {
   const [pagina, setPaginado] = useState(20);
   const [data, setdata] = useState([]);
+  const [loading, setLoader] = useState(false);
 
   const CargarMas = () => {
     alert("listar mas productos!" + pagina);
@@ -14,16 +16,23 @@ export default function List_Produc() {
   };
 
   useEffect(() => {
-    axios
-      .get("/api/productos")
-      .then((response) => {
+    const Get = async () => {
+      try {
+        setLoader(true);
+        let response = await axios.get(`items`);
         console.log(response.data);
-        setdata(response.data.Productos);
-      })
-      .catch((err) => {
-        console.error("Error al obtener productos", err);
-      });
+        setdata(response.data);
+        setLoader(false);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    Get();
   }, []);
+  //CARGADOR DE LOS COMPONENTES.
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div class="font-sans">
