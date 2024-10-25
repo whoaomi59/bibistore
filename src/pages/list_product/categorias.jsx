@@ -1,20 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Loader from "../../components/loading";
 
 export default function Categorias() {
   const [data, setdata] = useState([]);
+  const [loading, setLoader] = useState(false);
   useEffect(() => {
     const Get = async () => {
       try {
+        setLoader(true);
         let response = await axios.get(`categorias`);
         console.log(response.data);
         setdata(response.data);
+        setLoader(false);
       } catch (e) {
         console.log(e);
       }
     };
     Get();
   }, []);
+  //CARGADOR DE LOS COMPONENTES.
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div class="font-sans  py-4 mx-auto lg:max-w-7xl md:max-w-4xl">
       <h2 class="text-4xl font-extrabold text-purple-500  mb-16 text-center">
