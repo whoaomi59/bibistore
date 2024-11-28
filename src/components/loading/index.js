@@ -1,7 +1,7 @@
 export default function Loader() {
   return (
     <div className="flex">
-      <div class="loader" />
+      <img src="/SVG/bars-rotate-fade.svg" className="w-20" />
     </div>
   );
 }
