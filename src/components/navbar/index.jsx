@@ -8,7 +8,6 @@ export default function Navbar(props) {
   };
 
   let Token = localStorage.getItem("toke");
-  console.log(Token);
 
   return (
     <div>

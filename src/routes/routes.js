@@ -13,7 +13,7 @@ import Changues from "../pages/changues";
 export default function RouterPublic() {
   const [Status, setStatus] = useState({});
   let Token = sessionStorage.getItem("toke");
-  console.log(Token);
+
   useEffect(() => {
     const Get = async () => {
       try {
