@@ -12,6 +12,8 @@ import Changues from "../pages/changues";
 
 export default function RouterPublic() {
   const [Status, setStatus] = useState({});
+  let Token = localStorage.getItem("toke");
+  console.log(Token);
   useEffect(() => {
     const Get = async () => {
       try {
@@ -33,7 +35,15 @@ export default function RouterPublic() {
           </Navbar>
         }
       >
-        {Status.status == 0 ? (
+        {Token ? (
+          <Route>
+            <Route path="/" element={<List_Produc />} />
+            <Route
+              path="/Product_Detail/:id"
+              element={<Product_Detail />}
+            />{" "}
+          </Route>
+        ) : Status.status == 0 ? (
           <Route>
             <Route path="/" element={<List_Produc />} />
             <Route
