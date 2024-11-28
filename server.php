@@ -177,7 +177,24 @@ if ($method == 'POST' && preg_match('/\/php\/server\.php\/categorias/', $request
         echo json_encode(["message" => "Datos incompletos."]);
     }
 }
+//CHANGUES
+if ($method == 'POST' && preg_match('/\/php\/server\.php\/changues/', $requestUri)) {
+    parse_str(file_get_contents("php://input"), $put_vars);
 
+    $status = $put_vars['status'] ?? null;
+
+    $query = "UPDATE changues SET status=? where id=1";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $status);
+
+    if ($stmt->execute()) {
+        echo json_encode(["message" => "Item actualizado exitosamente."]);
+    } else {
+        echo json_encode(["message" => "Error al actualizar el item.", "error" => $stmt->error]);
+    }
+
+    $stmt->close();
+}
 
 // Cerrar la conexión a MySQL
 $conn->close();
