@@ -337,6 +337,12 @@ export default function AdminProduct() {
                     </td>
                     <td class="p-4 border-b border-blue-gray-50">
                       <button
+                        onClick={() => handleEdit(item)}
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                      >
+                        Editar
+                      </button>
+                      <button
                         onClick={() => handleDelete(item.id)}
                         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                       >

@@ -72,7 +72,7 @@ export default function Navbar(props) {
                   href="/nosotros"
                   className="lg:hover:text-purple-500 text-gray-500 block font-semibold text-[15px]"
                 >
-                  Nosotros
+                  Galeria
                 </a>
               </li>
               {Token ? (
