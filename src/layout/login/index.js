@@ -20,8 +20,7 @@ export default function Login() {
   const Logins = async (e) => {
     e.preventDefault();
     if (usuario === data.user && contraseña === data.pass) {
-      console.log("usuario");
-      localStorage.setItem("toke", "admin");
+      sessionStorage.setItem("toke", "admin");
       window.location.href = "/admin/product";
     } else {
       console.log("no user: " + data.user);
