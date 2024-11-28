@@ -39,6 +39,9 @@ export default function Categorias() {
                 class="h-full w-full object-contain"
                 style={{
                   borderRadius: "100%",
+                  height: "100%",
+                  width: "100%",
+                  backgroundSize: "cover",
                 }}
               />
             </div>
