@@ -178,6 +178,20 @@ if ($method == 'POST' && preg_match('/\/php\/server\.php\/categorias/', $request
     }
 }
 //CHANGUES
+if ($method == 'GET' && preg_match('/\/php\/server\.php\/changues/', $requestUri)) {
+    $query = "SELECT * FROM changues";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        $items = [];
+        while ($row = $result->fetch_assoc()) {
+            $items[] = $row;
+        }
+        echo json_encode($items);
+    } else {
+        echo json_encode(["message" => "No se encontraron changues."]);
+    }
+}
 if ($method == 'POST' && preg_match('/\/php\/server\.php\/changues/', $requestUri)) {
     parse_str(file_get_contents("php://input"), $put_vars);
 

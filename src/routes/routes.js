@@ -6,8 +6,24 @@ import AdminProduct from "../pages/admin/produc";
 import Login from "../layout/login";
 import CategoriasAdmin from "../pages/admin/categorias";
 import NabAdmin from "../pages/admin/components/navbar";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Changues from "../pages/changues";
 
 export default function RouterPublic() {
+  const [Status, setStatus] = useState({});
+  useEffect(() => {
+    const Get = async () => {
+      try {
+        let response = await axios.get("changues");
+        console.log(response.data[0]);
+        setStatus(response.data[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    Get();
+  }, []);
   return (
     <Routes>
       <Route
@@ -17,8 +33,18 @@ export default function RouterPublic() {
           </Navbar>
         }
       >
-        <Route path="/" element={<List_Produc />} />
-        <Route path="/Product_Detail/:id" element={<Product_Detail />} />{" "}
+        {Status.status == 0 ? (
+          <Route>
+            <Route path="/" element={<List_Produc />} />
+            <Route
+              path="/Product_Detail/:id"
+              element={<Product_Detail />}
+            />{" "}
+          </Route>
+        ) : (
+          <Route path="*" element={<Changues />} />
+        )}
+
         <Route
           element={
             <NabAdmin>
