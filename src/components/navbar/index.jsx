@@ -7,7 +7,7 @@ export default function Navbar(props) {
     setIsOpen(!isOpen);
   };
 
-  let Token = localStorage.getItem("toke");
+  let Token = sessionStorage.getItem("toke");
 
   return (
     <div>
