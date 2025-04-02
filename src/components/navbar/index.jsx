@@ -14,7 +14,7 @@ export default function Navbar(props) {
       <header className="flex border-b py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50 mb-10">
         <div className="flex flex-wrap items-center gap-5 w-full">
           <a href="/">
-            <img src="/img/logo2.png" alt="BibiStore" className="w-36" />
+            <img src="/img/sinfondo.png" alt="BibiStore" className="w-36" />
           </a>
 
           <div
