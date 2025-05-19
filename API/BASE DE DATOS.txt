@@ -1,0 +1,144 @@
+CREATE TABLE empresa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    direccion TEXT,
+    telefono VARCHAR(50),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    logo TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    telefono VARCHAR(50),
+    password VARCHAR(255) NOT NULL,
+    rol ENUM('admin', 'negocio', 'cliente', 'domiciliario') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE categorias_negocios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL UNIQUE
+);
+
+
+
+
+CREATE TABLE negocios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    categoria_id INT NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    direccion TEXT,
+    telefono VARCHAR(50),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (categoria_id) REFERENCES categorias_negocios(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE tipos_productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    negocio_id INT NOT NULL,
+    tipo_id INT NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (negocio_id) REFERENCES negocios(id) ON DELETE CASCADE,
+    FOREIGN KEY (tipo_id) REFERENCES tipos_productos(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    negocio_id INT NOT NULL,
+    domiciliario_id INT DEFAULT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    estado ENUM('pendiente', 'procesando', 'enviado', 'entregado', 'cancelado') DEFAULT 'pendiente',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (cliente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (negocio_id) REFERENCES negocios(id) ON DELETE CASCADE,
+    FOREIGN KEY (domiciliario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE detalle_pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT NOT NULL,
+    producto_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
+    FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE empresa_imagenes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE empresa_videos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    descripcion TEXT NULL,
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE negocio_imagenes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    negocio_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    FOREIGN KEY (negocio_id) REFERENCES negocios(id) ON DELETE CASCADE
+);
+
+
+ALTER TABLE usuarios ADD reset_token VARCHAR(255) NULL;
+ALTER TABLE usuarios ADD reset_expiration DATETIME NULL;
+ALTER TABLE empresa ADD descripcion TEXT NOT NULL AFTER nombre;
+ALTER TABLE `negocios` ADD `Horario_inicial` TIME NOT NULL AFTER `email`;
+ALTER TABLE `negocios` ADD `Horario_final` TIME NOT NULL AFTER `Horario_inicial`;
+ALTER TABLE `negocios` ADD `estado` BOOLEAN NOT NULL AFTER `Horario_final`;
+ALTER TABLE `negocios` ADD `logo` TEXT NOT NULL AFTER `id`;
+ALTER TABLE `productos` ADD `img` BLOB NOT NULL AFTER `stock`;
+
+
+CREATE TABLE rol_rutas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rol ENUM('admin', 'negocio', 'cliente', 'domiciliario') NOT NULL,
+    ruta_id INT NOT NULL,
+    FOREIGN KEY (ruta_id) REFERENCES rutas(id) ON DELETE CASCADE
+);
+
+
+ALTER TABLE `negocios` CHANGE `logo` `logo` BLOB NOT NULL;
+
