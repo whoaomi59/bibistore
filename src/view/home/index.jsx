@@ -126,7 +126,7 @@ export default function Home() {
             onClick={() => handleWhatsappClick(textos, Info)}
             className="py-2 px-6 inline-flex items-center gap-x-2 text-lg font-bold rounded-full text-white btn-bg-primary transition-all shadow-lg"
           >
-            Domiciliario
+            Contacto Administrador
             <svg
               className="w-5 h-5"
               xmlns="http://www.w3.org/2000/svg"
