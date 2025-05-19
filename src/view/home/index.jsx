@@ -111,7 +111,7 @@ export default function Home() {
             !
           </h1>
           <p className="mt-6 text-lg md:text-2xl text-white font-medium drop-shadow-md">
-            Tu solución rápida para Cosmeticos y Accesorios.
+            Tu solución rápida para Cosméticos y Accesorios.
           </p>
         </motion.div>
 
