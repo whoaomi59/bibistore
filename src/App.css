@@ -1,33 +1,51 @@
-body {
-  background-color: #f3f4f6;
-}
-.margin-90 {
-  width: 90%;
-  margin: 0 auto;
-}
-
-/* HTML: <div class="loader"></div> */
-.loader {
-  width: 50px;
-  padding: 8px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #a855f7;
-  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
-  -webkit-mask: var(--_m);
-  mask: var(--_m);
-  -webkit-mask-composite: source-out;
-  mask-composite: subtract;
-  animation: l3 1s infinite linear;
-}
-@keyframes l3 {
-  to {
-    transform: rotate(1turn);
-  }
-}
-
-.flex {
-  align-items: center;
-  justify-content: center;
+.flexx {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 200px;
+}
+/* TEXTOS */
+.color-primary {
+  color: #9174bd;
+}
+.color-secondary {
+  color: #86a781;
+}
+/* BOTONES */
+
+.btn-bg-primary {
+  background-color: #9174bd;
+  color: #fff;
+}.btn-bg-primary:hover {
+  background-color: #86a781;
+  color: #f3f4f6;
+}
+/* BACGOUND */
+.bg-secondary {
+  background-color: #86a781;
+  color: #fff;
+}.bg-primary {
+  background-color: #9174bd;
+  color: #fff;
+}
+/* EFECTOS HOVER */
+.hover-bg-primary:hover {
+  background-color: #5b21b6;
+  color: #fff;
+}
+
+.hover-bg-secondary:hover {
+  background-color: #facc15;
+  color: #f3f4f6;
+}
+/* BORDES */
+.border-bg-primary {
+  border-color: #5b21b6;
+}
+
+/* COLORES PASIVOS */
+.p-bg-primary,.p-hover-bg-primary:hover {
+  background-color: #5a21b660;
+  color: #f3f4f6;
 }
