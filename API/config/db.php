@@ -1,8 +1,9 @@
 <?php
-$host = "localhost";
-$user = "runwayco_runwayco";
-$pass = "L(4Yc0_eBYMC";
-$dbname = "runwayco_bd";
+
+$host = "asuprocolombiasas.com";
+$user = "sisottsa_hacker";
+$pass = "aAeewMH_WsgE";
+$dbname = "sisottsa_shopp";
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // Muestra errores de MySQL
 
